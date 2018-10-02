@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hk.dao.ProductMapper">
+<select id="queryProducts" resultType="com.hk.bean.Product">
+     select *from product
+</select>
+
+<select id="queryCategory" resultType="com.hk.bean.category">
+     select *from category where id=#{id}
+</select>
+
+<select id="queryAllCategory" resultType="com.hk.bean.category">
+     select *from category
+</select>
+
+<select id="queryByName" resultType="com.hk.bean.Product">
+    select *from product where name=#{name}
+</select>
+
+<insert id="insertProduct">
+	<selectKey keyProperty="id" order="AFTER" resultType="string">
+		select last_insert_id()
+	</selectKey>
+     insert into product(name,price,createtime,detail) values(#{name},#{price},#{createtime},#{detail})
+</insert>
+
+
+<insert id="insertProductCategory">
+     insert into product_category(pid,cid)
+     values
+     <foreach collection="ids" item="id" separator=",">
+     (#{pid},#{cid})
+     </foreach>
+</insert>
+
+<delete id="deleteProduct">
+     delete from product where id=#{id}
+</delete>
+
+<select id="queryById" resultType="com.hk.bean.Product">
+     select *from product where id=#{id}
+</select>
+
+<delete id="deleteProductCategory">
+     delete from product_category where pid=#{pid}
+</delete>
+
+<update id="update">
+     update product set name=#{name},price=#{price},createtime=#{createtime},detail=#{detail} where id=#{id}
+</update>
+</mapper>
